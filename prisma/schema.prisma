@@ -101,7 +101,10 @@ model Registration {
 model Campaign {
   id              String            @id @default(cuid())
   campaignTitle   String
+  blurb           String
   frequency       CampaignFrequency @default(Monthly)
+  createdAt       DateTime?         @default(now())
+  updatedAt       DateTime?         @updatedAt
   campaignContent CampaignContent[]
   Subscribers     Subscribers[]
 }
@@ -109,6 +112,8 @@ model Campaign {
 model CampaignContent {
   id          Int      @id @default(autoincrement()) @db.Oid
   campaignId  String
+  content     String
+  status      Status   @default(Draft)
   scheduledOn DateTime
 
   campaign Campaign @relation(fields: [campaignId], references: [id])
