@@ -1,4 +1,4 @@
-import { AdminLoginHandler, GetAllAdminHandler } from "@/controllers/admin/office";
+import { AdminLoginHandler, EditAdminHandler, GetAllAdminHandler } from "@/controllers/admin/office";
 import { Router } from "express";
 import { validateToken } from "@/middleware/authentication/token";
 import {
@@ -15,7 +15,7 @@ router.post("/office/login", AdminLoginHandler);
 // router.get("/office/dashboard", validateToken, AdminDashboardHandler);
 router.get("/office", validateToken, GetAllAdminHandler);
 // router.post("/office/new", validateToken, CreateAdminHandler);
-// router.post("/office/edit/{adminId}", validateToken, EditAdminHandler);
+router.post("/office/edit/:adminId", validateToken, EditAdminHandler);
 
 // Events
 router.get("/events", validateToken, GetAllEventsHandler);
