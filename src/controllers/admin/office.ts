@@ -131,13 +131,11 @@ export const CreateAdminHandler = async (req: Request, res: Response) => {
       // Send email to new admin
       sendAdminPassword(newAdmin.firstName, newAdmin.email, password);
 
-      return newAdmin;
     });
 
     // Return success response
     return res.status(201).json({
       message: "Admin created successfully",
-      admin: admins,
     });
 
   } catch (e) {
@@ -157,3 +155,29 @@ export const CreateAdminHandler = async (req: Request, res: Response) => {
     }
   }
 };
+
+export const GetPastAdminHandler = async (_ : Request, res : Response) => {
+  try {
+    const pastAdmins = await prismaClient.admin.findMany({
+      where : {
+        isActive : false
+      },
+      select : {
+        id : true,
+        firstName : true,
+        lastName : true,
+        email : true,
+        department : true,
+        role : true
+      }
+    });
+    return res.status(200).json({
+      pastAdmins
+    })
+  }
+  catch (e) {
+    return res.status(500).json({
+      message : "Internal Server Error! Please try again later."
+    });
+  }
+}
